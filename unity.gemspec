@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Unity::VERSION
   s.authors     = ["James Kessler"]
   s.email       = ["afinetooth@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Unity."
-  s.description = "TODO: Description of Unity."
+  s.homepage    = "https://github.com/afinetooth/unity"
+  s.summary     = "A gem for maintaining consistent user experiences between unit systems. Make your apps all unit-y!"
+  s.description = "The Unity Gem makes constructing unit-aware form elements easy. It fixes the biggest problem in switching between units---intelligently choosing the right value in the new unit system."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 

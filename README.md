@@ -21,7 +21,7 @@ A gem for maintaining consistent user experiences between unit systems.
 Add `unity` to your Gemfile and run the `bundle` command to install it.
 
 ```ruby
-gem "unity"
+gem "unity", :git => "git://github.com/afinetooth/unity.git"
 ```
 
 ## Usage
