@@ -16,7 +16,7 @@ Make your apps all unit-y!
 * Supports construction of form elements with standard Rails FormHelpers and FormOptionsHelpers.
 * Provides an instance method of UnityCollection--closest_to--for selecting the most appropriate value in the new unit system.
 
-# Installation
+## Installation
 
 Add `unity` to your Gemfile and run the `bundle` command to install it.
 
