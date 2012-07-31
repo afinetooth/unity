@@ -1,7 +1,7 @@
 # Unity
 =====
 
-A gem for maintaining consistent user experiences across different unit systems.
+A gem for maintaining a consistent user experience between different unit systems.
 
 Make your apps all unit-y!
 
@@ -15,10 +15,6 @@ Make your apps all unit-y!
 * Adds a new collection object to your projects, UnityCollection.
 * Supports construction of form elements with standard Rails FormHelpers and FormOptionsHelpers.
 * Provides an instance method of UnityCollection--closest_to--for selecting the most appropriate value in the new unit system.
-
-## Tutorial
-
-Follow the steps here to get unity working in your project.
 
 # Installation
 
@@ -44,7 +40,9 @@ Where @lengths is a UnityCollection, which might be constructed as follows:
 @lengths = UnityCollection.new(:units => "in", :range => 4..16, :increment => 0.5)
 ```
 
-For a full tutorial with examples, see wiki.
+## Tutorial
+
+Follow the steps here to get unity working in your project.
 
 ## Development
 
