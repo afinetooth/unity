@@ -13,7 +13,7 @@ A gem for maintaining consistent user experiences between unit systems.
 ## How it works:
 
 * Adds a new collection object to your projects, **UnityCollection**.
-* Supports construction of form elements with standard Rails FormHelpers and FormOptionsHelpers.
+* Supports construction of form elements with standard Rails FormHelpers and [FormOptionsHelpers](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper).
 * Provides an instance method of UnityCollection, **closest_to**, for selecting the most appropriate value in the new unit system.
 
 ## Installation
@@ -26,7 +26,7 @@ gem "unity"
 
 ## Usage
 
-Construct form elements as normal with FormHelpers and [FormOptionsHelpers](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper), but use UnityCollection as the source for your [FormOptionsHelper](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper).
+Construct form elements as normal with FormHelpers and [FormOptionsHelpers](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper), but use UnityCollection as the source for your FormOptionsHelper.
 
 Example:
 
