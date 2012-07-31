@@ -1,0 +1,391 @@
+<h1>Unity Gem</h1>
+
+<p>Make your apps all unit-y</p>
+
+<h2>The Unity Gem presents the UnityCollection for all your FormOptionsHelpers</h2>
+
+<p>
+	A very common practice in Rails is to build form input fields using helpers called FormHelpers and populate those fields&mdash;such as select tags&mdash;with options constructed using other helpers called FormOptionsHelpers.
+</p>
+
+<p>
+	A common example is the FormOptionsHelper, <code>options_from_collection_for_select</code>, which, in order to construct the options populating a select tag from a specific collection, takes 3 to 4 arguments as follows:
+</p>
+	
+<code>
+	<strong>options_from_collection_for_select</strong>(collection, value_method, text_method, selected = nil)
+</code>
+
+<p>
+	Where:
+	<ul> 
+		<li><code>collection</code> is any collection, typically an ActiveRecord collection;</li>
+		<li><code>value_method</code> is a method that generates the <em>value</em> for the option, typically an attribute accessor of an ActiveRecord model;</li>
+		<li><code>text_method</code> is a method that generates the <em>text</em> for the option, also typically an attribute accessor from the same ActiveRecord model; and</li>
+		<li><code>selected</code> is a value&mdash;or method, or proc&mdash;that generates the <em>selected value</em> (if any) from the given collection, taken as the current value of the input field.</li>
+	</ul>
+</p>
+
+<p>
+	With the <%= link_to("Unity Gem", '') %>, we introduce a new kind of collection&mdash;<%= link_to("UnityCollection", '') %>&mdash;to help us build form inputs that present their values in units.
+</p>
+
+<p>
+	Why?
+</p>
+
+<p>
+	Well, first of all, because we needed it.
+</p>
+
+<p>
+	Second, because we figured a lot of other people might need it too.
+</p>
+
+<p>
+	The idea is that sometimes we must display values in our form inputs where units are of key importance, and furthermore where they may be used interchangeably between unit systems; such as in the case of a European merchant who specifies the dimensions of custom furnishings in centimeters, but whose American customer can alter those dimensions in inches.
+</p>
+
+<p>
+	A major challenge for such use cases is switching between units in the user interface, particularly when conversion leads to irregular numerical values in the target unit, making it unlikely that such values would appear among a common set of incremental measurements in that unit.
+</p>
+
+<p>
+	For example, while <strong>10 inches</strong> might be a common option for the depth of a cabinet for an American customer, it's equivalent value of <strong>25.4 centimeters</strong> is not likely to appear among the options for cabinet depth for a European customer.
+</p>
+
+<p>
+	The <%= link_to("Unity Gem", '') %> offers a solution to this challenge by providing the unit-aware collection, <%= link_to("UnityCollection", '') %>, whose members are all of the class <%= link_to("Unit", '') %>, which the gem leverages from its main supporting dependency, the exquisite <%= link_to("ruby-units", 'https://github.com/olbrich/ruby-units') %> by <%= link_to("Kevin Olbrich", 'https://github.com/olbrich') %>.
+</p>
+
+<p>
+	All that's required to gain this functionality (after adding the <%= link_to("Unity Gem", '') %> to your project) is to create and use your own <%= link_to("UnityCollections", '') %> as the basis of <%= link_to("FormOptionsHelpers", 'http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper') %> like <code>options_from_collection_for_select</code>:
+</p>
+
+<p>
+	Again, that method looks like this:
+</p>
+
+<code>
+	<strong>options_from_collection_for_select</strong>(collection, value_method, text_method, selected = nil)
+</code>
+
+<p>
+	Only in this case, where:
+	<ul> 
+		<li><code>collection</code> is a <%= link_to("UnityCollection", '') %>, as created in the examples that follow.</li>
+		<li><code>value_method</code> is a method that generates the <em>value</em> for the option, in this case the method of a <%= link_to("Unit", '') %> object;</li>
+		<li><code>text_method</code> is a method that generates the <em>text</em> for the option, also a method of a <%= link_to("Unit", '') %> object; and</li>
+		<li><code>selected</code> generates the <em>selected value</em> (if any) from the given collection.</li>
+	</ul>
+</p>
+
+<p>
+	Since choosing a value from the <em>given</em> collection is the tricky part in our use case&mdash;where the new collection may contain values differing from those among which the original value was chosen&mdash;we need a method to pass <code>selected</code> that examines the current collection, converts the original value into the current units and selects the option closest to the original value from among the current collection.
+</p>
+
+<p>
+	The method we want is an instance method of <%= link_to("UnityCollection", '') %> called <strong>closest_to</strong>, such that:
+</p>
+
+<code>
+	&lt;collection_of_values&gt;.closest_to(original_value)<br \>
+	=> &lt;some_member_closest_to_original_value&gt;
+</code>
+
+<p>	
+	Here's how it works for some examples below.
+</p>
+
+<p>	
+	First we want to create a new <%= link_to("UnityCollection", '') %> following the pattern:
+</p>
+
+<code>UnityCollection.new(:units => String, :range => Range, :increment => Numeric)</code>
+
+<p>	
+	Where:
+	<ul> 
+		<li><code>units</code> is the target unit for our collection;</li>
+		<li><code>range</code> is the <%= link_to("range", '') %> of values for the collection, taking any two Numeric values as the beginning and end of the <%= link_to("range", '') %>; and</li>
+		<li><code>increment</code> is the increment by which values in the collection should increase from first value to last value.</li>
+	</ul>
+</p>
+
+<p>	
+	In our case, let's call our collection <code>@lengths</code> and pass it the following values as arguments:
+</p>
+
+<code>@lengths = UnityCollection.new(:units => "in", :range => 4..16, :increment => 0.5)</code>
+
+<p>	
+	By doing this, we end up with the following array, since&mdash;perhaps as no surprise&mdash;<%= link_to("UnityCollection", '') %> inherits most of its behavior from class Array:
+</p>
+
+<code>[4 in, 4.5 in, 5 in, 5.5 in, 6 in, 6.5 in, 7 in, 7.5 in, 8 in, 8.5 in, 9 in, 9.5 in, 10 in, 10.5 in, 11 in, 11.5 in, 12 in, 12.5 in, 13 in, 13.5 in, 14 in, 14.5 in, 15 in, 15.5 in, 16 in]</code>
+
+<p>	
+	Notice that we have an array of <%= link_to("Unit", '') %> objects here, ranging from <code>4 in</code> to <code>16 in</code> in increments of <code>0.5 in</code> each. 
+</p>
+
+<p>
+	To reiterate, these are <%= link_to("Units", '') %>, not Strings, such that we will be using instance methods of <%= link_to("Unit", '') %>, as opposed to String, for instance, or ActiveRecord::Base, to construct our <%= link_to("FormOptionsHelper", 'http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper') %>, as we do below:
+</p>
+
+<hr>
+
+<% @lengths = UnityCollection.new(:units => "in", :range => 4..16, :increment => 0.5) %>
+
+<% form_tag('/home', :method=>'post', :multipart => true) %>
+
+<p>
+	For our first input field&mdash;a select tag&mdash;let's keep it simple and pass three arguments to <code>options_from_collection_for_select</code>&mdash;without any <em>selected</em> value&mdash;like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units)) %&gt;</code>
+
+<h4>Options displayed, with units, for values and text (no value selected)</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units)) %>
+</p>
+
+<p>
+	Notice the two methods passed to <code>options_from_collection_for_select</code> for <em>value_method</em> and <em>text_method</em>, which are identical, <code>:with_units</code>.
+</p>
+
+<p>
+	If we chose to, we could've used an alternate method, <code>:without_units</code>, for <em>text_method</em>, like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :without_units)) %&gt;</code>
+
+<p>
+	Which would look like this:
+</p>
+
+<h4>Options displayed, without units for text (no value selected)</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :without_units)) %>
+</p>
+
+<p>
+	Or we could have used <code>:without_units</code> for both <em>text_method</em> and <em>value_method</em>, like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units)) %&gt;</code>
+
+<p>
+	Which looks like this:
+</p>
+
+<h4>Options displayed, without units, for values or text (no value selected)</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units)) %>
+</p>
+
+<p>
+	(You'll have to check the HTML source to verify, if you're the thorough type.)
+</p>
+
+<hr>
+
+<p>
+	Now let's look at some examples where we want to indicate a <em>selected value</em> from among the options for the field. This <em>is</em>, after all, <%= link_to("Unity", '') %>'s main benefit.
+</p>
+
+<p>
+	Here's one with a simple value passed to <code>selected</code>:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => "11.5 in")) %&gt;</code>
+
+<p>
+	Which looks like this:
+</p>
+
+<h4>Selecting "11.5 in" from Values</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => "11.5 in")) %>
+</p>
+
+<p>
+	This makes sense.
+</p> 
+	
+<p>
+	Even though we know the members of our collection are <%= link_to("Units", '') %>, once displayed in the markup for our select tag, the value of the option displayed as "11.5 in" is equivalent to the "11.5 in" we  originally passed in as a String.
+</p>
+
+<p>
+	Similarly, we could have passed the value as a <%= link_to("Unit", '') %>, like this:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => Unit.new("11.5 in"))) %&gt;</code>
+
+<p>
+	And gotten the same result:
+</p>
+
+<h4>Selecting <code>Unit.new("11.5 in")</code> from Values</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => Unit.new("11.5 in"))) %>
+</p>
+
+<p>
+	This is because <code>Unit.new("11.5 in")</code>, once initialized, displays itself as "11.5 in" in our presentation layer&mdash;a string like any other&mdash;and, therefore, equivalent to the value for the option displayed as "11.5 in".
+</p>
+
+<hr>
+
+<p>
+	Now what if we pass another simple value to <code>selected</code>, still in the <em>same units</em> as our collection, but which <em>does not</em> appear in our collection.
+</p>
+
+<p>
+	Perhaps the value is "11.25 in", which in this case falls between the two incremental values <strong>"11 in"</strong> and <strong>"11.5 in"</strong>.
+</p>
+
+<p>
+	When we pass "11.25 in" to <code>selected</code> like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => "11.25 in")) %&gt;</code>
+
+<p>
+	We get this:
+</p>
+
+<h4>Selecting "11.25 in" from Values</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => "11.25 in")) %>
+</p>
+
+<p>
+	No dice. We get <em>no selected value</em>. This is because the literal value "11.25 in" cannot be found among any the values for the options that were constructed from our collection.
+</p>
+
+<hr>
+
+<p>
+	Enter the <code><strong>close_to</strong></code> method. The instance method of <%= link_to("UnityCollection", '') %> we mentioned earlier.
+</p>
+	
+<p>
+	This is just the method we need to pass to <code>selected</code> in order to ask our helper to pick the value closest to the value we have on hand.
+</p>
+
+<p>
+	We do it like this:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("11.25 in"))) %&gt;</code>
+
+<p>
+	And get this:
+</p>
+
+<h4>Selecting value closest to "11.25 in"</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("11.25 in"))) %>
+</p>
+
+<p>
+	Voilà.
+</p>
+
+<hr>
+
+<p>
+	<strong>Now comes the fun part&mdash;jumping units! Where <%= link_to("Unity", '') %> shines.</strong>* 
+</p>
+
+<p>
+	<small>*Or where it <em>should</em>, anyway. <%= link_to("Please let me know if you have any issues, doubts or pull requests", 'mailto://afinetooth@gmail.com') %>.</small>
+</p>
+
+<hr>
+
+<p>
+	Let's see what we get when we ask for the value&mdash;amongst this collection of inches&mdash;closest to the value "29 cm", like this:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("29 cm"))) %&gt;</code>
+
+<p>
+	We get:
+</p>
+
+<h4>Selecting value closest to "29 cm"</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("29 cm"))) %>
+</p>
+
+<p>
+	Pretty nifty, eh? But that was an easy one.
+</p>
+
+<p>
+	What if we try "22 cm", like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("22 cm"))) %&gt;</code>
+
+<p>
+	Well, we get this:
+</p>
+
+<h4>Selecting value closest to "22 cm"</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("22 cm"))) %>
+</p>
+
+<p>
+	Yay.
+</p>
+
+<hr>
+
+<p>
+	<strong><%= link_to("Unity", '') %> handles our jumps across the pond&mdash;from inches to centimeters&mdash;and back again&mdash;from metric to imperial.</strong>
+</p>
+
+<hr>
+
+<p>
+	We can even jump around in our own pond, with different units from our own system.
+</p>
+
+<p>
+	Just for the heck of it, say we pass in a value of "1 ft", like so:
+</p>
+
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("1 ft"))) %&gt;</code>
+
+<p>
+	We've got that too:
+</p>
+
+<h4>Selecting value closest to "1 ft"</h4>
+<p>
+	Length: <br />
+   	<%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("1 ft"))) %>
+</p>
+
+<hr>
+
+<p>
+	<strong>Can you make use of <%= link_to("Unity", '') %> on your project?</strong> If so, let us know. Especially if you want to push it further. We welcome all pull requests.
+</p>
+
+<hr>
+
+</form>
