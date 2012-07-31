@@ -3,7 +3,7 @@
 
 A gem for maintaining a consistent user experience between different unit systems.
 
-Make your apps all unit-y!
+*Make your apps all unit-y!*
 
 ## What it does:
 
@@ -12,9 +12,9 @@ Make your apps all unit-y!
 
 ## How it works:
 
-* Adds a new collection object to your projects, UnityCollection.
+* Adds a new collection object to your projects, **UnityCollection**.
 * Supports construction of form elements with standard Rails FormHelpers and FormOptionsHelpers.
-* Provides an instance method of UnityCollection--closest_to--for selecting the most appropriate value in the new unit system.
+* Provides an instance method of UnityCollection, **closest_to**, for selecting the most appropriate value in the new unit system.
 
 ## Installation
 
@@ -26,7 +26,7 @@ gem "unity"
 
 ## Usage
 
-Construct form elements as normal with FormHelpers and FormOptionsHelpers, but use UnityCollection as the source for your FormOptionsHelper.
+Construct form elements as normal with FormHelpers and [FormOptionsHelpers](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper), but use UnityCollection as the source for your [FormOptionsHelper](http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper).
 
 Example:
 
@@ -42,7 +42,7 @@ Where @lengths is a UnityCollection, which might be constructed as follows:
 
 ## Tutorial
 
-Follow the steps here to get unity working in your project.
+Follow the steps [here](https://github.com/afinetooth/unity/wiki) to get unity working in your project.
 
 ## Development
 
