@@ -9,7 +9,7 @@ describe UnityCollection do
     @collection.should be_a_kind_of(Array)
   end
     
-  it "and its members are Units" do 
+  it "has members that are Units" do 
     @collection.all?{|element| element.class == Unit}.should eq(true)
   end
 end
