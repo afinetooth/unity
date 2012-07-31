@@ -1,7 +1,7 @@
 # Unity
 =====
 
-A gem for maintaining a consistent user experience between different unit systems.
+A gem for maintaining consistent user experiences between unit systems.
 
 *Make your apps all unit-y!*
 
