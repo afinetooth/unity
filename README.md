@@ -51,4 +51,3 @@ Questions or problems? Please post them on the [issue tracker](https://github.co
 You can contribute changes by forking the project and submitting a pull request. 
 
 This gem is created by James Kessler (afinetooth@gmail.com) and is under the MIT License.
-
