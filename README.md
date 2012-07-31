@@ -14,7 +14,7 @@ Make your apps all unit-y!
 
 * Adds a new collection object to your projects, UnityCollection.
 * Supports construction of form elements with standard Rails FormHelpers and FormOptionsHelpers.
-* Provides an instance method of UnityCollection---closest_to(value)---for selecting the most appropriate value in the new unit system.
+* Provides an instance method of UnityCollection--closest_to--for selecting the most appropriate value in the new unit system.
 
 ## Tutorial
 
@@ -38,22 +38,11 @@ Example:
 <%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :without_units, @lengths.closest_to("29 cm"))) %>
 ```
 
-Notice the use of the FormOptionsHelper:
+Where @lengths is a UnityCollection, which might be constructed as follows:
 
 ```ruby
-options_from_collection_for_select(collection, value_method, text_method, selected = nil)
+@lengths = UnityCollection.new(:units => "in", :range => 4..16, :increment => 0.5)
 ```
-
-But for constructing unit-aware form elements, populate it as follows.
-
-Where:
-
-* collection is a UnityCollection.
-* value_method generates the value for the option, in this case using a special method of the Unit object, with_units;
-* text_method generates the text for the option, in this case using the Unit object's without_units method; and
-* selected generates the selected value (if any) from the given collection.
-
-
 
 For a full tutorial with examples, see wiki.
 
