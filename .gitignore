@@ -74,3 +74,6 @@ pickle-email-*.html
 
 # vim artifacts
 **.swp
+
+# This is a gem
+Gemfile.lock
