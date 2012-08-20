@@ -200,7 +200,7 @@
 	Here's one with a simple value passed to <code>selected</code>:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => "11.5 in")) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => "11.5 in")) %&gt;</code>
 
 <p>
 	Which looks like this:
@@ -224,7 +224,7 @@
 	Similarly, we could have passed the value as a <%= link_to("Unit", '') %>, like this:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => Unit.new("11.5 in"))) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => Unit.new("11.5 in"))) %&gt;</code>
 
 <p>
 	And gotten the same result:
@@ -254,7 +254,7 @@
 	When we pass "11.25 in" to <code>selected</code> like so:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => "11.25 in")) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => "11.25 in")) %&gt;</code>
 
 <p>
 	We get this:
@@ -284,7 +284,7 @@
 	We do it like this:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("11.25 in"))) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("11.25 in"))) %&gt;</code>
 
 <p>
 	And get this:
@@ -316,7 +316,7 @@
 	Let's see what we get when we ask for the value&mdash;amongst this collection of inches&mdash;closest to the value "29 cm", like this:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("29 cm"))) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("29 cm"))) %&gt;</code>
 
 <p>
 	We get:
@@ -336,7 +336,7 @@
 	What if we try "22 cm", like so:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("22 cm"))) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("22 cm"))) %&gt;</code>
 
 <p>
 	Well, we get this:
@@ -368,7 +368,7 @@
 	Just for the heck of it, say we pass in a value of "1 ft", like so:
 </p>
 
-<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :without_units, :without_units, :selected => @lengths.closest_to("1 ft"))) %&gt;</code>
+<code>&lt;%= select_tag("length", options_from_collection_for_select(@lengths, :with_units, :with_units, :selected => @lengths.closest_to("1 ft"))) %&gt;</code>
 
 <p>
 	We've got that too:
