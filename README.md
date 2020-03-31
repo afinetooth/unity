@@ -8,7 +8,7 @@ A gem for maintaining consistent user experiences between unit systems.
 ## What it does:
 
 * Makes constructing unit-aware form elements easy.
-* Fixes the biggest problem in switching between units---intelligently choosing the right value in the new unit system.
+* Fixes the biggest problem in switching between units---intelligently choosing the most appropriate value in the new unit system.
 
 ## How it works:
 
