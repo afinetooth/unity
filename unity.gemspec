@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.description = "The Unity Gem makes constructing unit-aware form elements easy. It fixes the biggest problem in switching between units---intelligently choosing the most appropriate value in the new unit system."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile"]
+  s.license     = "MIT"
 
   s.add_dependency "rails", "~> 3.2.6"
   s.add_dependency "ruby-units"
